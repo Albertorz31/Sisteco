@@ -1,0 +1,16 @@
+Programe una función en Python que implemente una ronda de cifrador Feistel
+Defina el tamaño de bloque
+Reciba el “texto plano” como parámetro en formato binario
+Reciba F como parámetro
+Defina una función F de prueba
+Reciba K1 como parámetro
+Defina una llave K1 de prueba
+Retorne el “texto cifrado” como parámetro en formato binario
+Demuestre a través de un test que su cifrador es reversible
+El diseño e implementación del test queda a su criterio.
+El ejecutar el programa sin parámetros debe correr este test.
+NOTA 1: Debe entregar un PDF con la descripción de su solución y solo 1 archivo python con la implementación y el test.
+NOTA 2: Al ejecutar su programa sin parámetros ejecuta directamente el test del punto 2. 
+NOTA 3: Los revisores ejecutarán el programa sin parámetros y debe pasar el test que ud. diseñó e implementó.
+NOTA 4: Puede usar funciones de librerías externas para implementar F, aunque se sugiere una implementación muy simple de F por ahora.
+NOTA 5: Considere las entradas y salidas como binarias. Puede usar representación hexadecimal o ASCII para facilitar la lectura

@@ -1,0 +1,75 @@
+
+def separarBloque(textoBinario, TamanoBloque):
+	blocks= []
+	while len(textoBinario) >= TamanoBloque:
+		blocks.append(textoBinario[:TamanoBloque])
+		textoBinario = textoBinario[TamanoBloque:]
+	if len(textoBinario) > 0:
+		blocks.append(textoBinario+b" "*(TamanoBloque-len(textoBinario)))
+
+	return blocks
+
+def feistel(blocks, TamanoBloque, key, f):
+	mitad = int(TamanoBloque/2)
+	resultado= b""
+	for block in blocks:
+		L = block[:mitad]
+		R = block[mitad:]
+		#La funcion F de prueba es una funcion Xor
+		L = (xor(L, f(key, R)))
+
+		resultado += L + R
+
+	return resultado
+
+def xor(a , b):
+	output=b""
+	for a, b in zip(a, b):
+		output += bytes([a ^ b])
+	return output
+
+def limpiarEspacios(descifrado):
+	while descifrado[-1] == b" "[0]:
+		descifrado = descifrado[:-1]
+	return bytes(descifrado)
+
+def main():
+	TamanoBloque = 32
+	#Lectura del archivo y lo transforma e texto en formato binario
+	f = open("TextoPlano.txt", "rb")
+	textoBinario = f.read()
+	f.close()
+
+	#Defino la llave
+	key = b"Llave de 16bytes"
+
+	#Se separa el texto en bloques de 32 bits
+	blocks = separarBloque(textoBinario, TamanoBloque)
+
+    #Se realiza el cifrado feistel
+	textoCifrado = feistel(blocks, TamanoBloque, key, xor)
+
+	w = open("textoCifrado.txt", "wb")
+	w.write(textoCifrado)
+	w.close()
+	print("Archivo Cifrado Creado")
+
+	blocks = separarBloque(textoCifrado, TamanoBloque)
+	textoDescifrado = feistel(blocks, TamanoBloque, key, xor)
+
+	textoDescifrado = limpiarEspacios(textoDescifrado)
+
+	print("TEST")
+	print("Se descifra el texto Cifrado y se compara este con el texto inicial para ver si son iguales")
+	if textoBinario == textoDescifrado:
+		print("Son iguales\n")
+	else: 
+		print("No son iguales\n")
+
+	wd = open("textoDescifrado.txt", "wb")
+	wd.write(textoDescifrado)
+	wd.close()
+	print("Archivo Descrifrado Creado")
+
+
+main()
